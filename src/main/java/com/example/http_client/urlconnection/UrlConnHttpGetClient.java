@@ -36,9 +36,6 @@ public class UrlConnHttpGetClient {
 
     public String doGet(String url, Map<String, String> headers) throws IOException {
 
-        // private String doPost(String endpoint, String encoding, Map<String, String>
-        // headers, String jsonString) throws IOException {
-
         final int TIMEOUT_MILLIS = 0;// タイムアウトミリ秒：0は無限
 
         final StringBuffer sb = new StringBuffer("");
@@ -63,15 +60,7 @@ public class UrlConnHttpGetClient {
                     httpConn.setRequestProperty(key, headers.get(key));// HTTPヘッダをセット
                 }
             }
-
-//            OutputStream os = httpConn.getOutputStream();
-//            final boolean autoFlash = true;
-//            PrintStream ps = new PrintStream(os, autoFlash, encoding);
-//            ps.print(jsonString);
-//            ps.close();
-
             final int responseCode = httpConn.getResponseCode();
-
             String encoding = httpConn.getContentEncoding();
             if (encoding == null) {
                 encoding = "UTF-8";
