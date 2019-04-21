@@ -8,15 +8,10 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.example.gson.Person;
-import com.example.gson.Pet;
 import com.example.http_client.okhttp.OkHttpPostClient;
-import com.example.gson.Model;
-import com.google.gson.Gson;
 
 /**
  * HTTP通信にはJava標準の「HttpUrlConnection」、GSON操作ライブラリに「GSON」をつかって、
@@ -31,30 +26,21 @@ public class UrlConnHttpPostClient {
     }
 
     private static final String WEB_API_ENDPOINT = "http://localhost:8080/api";
-    private final Gson mGson = new Gson();
 
     public String callWebAPI() throws IOException {
 
-        Model model = new Model();
-        model.person = new Person();
-        model.person.firstName = "ジョン";
-        model.person.lastName = "ドゥ";
-        model.person.address = "ニューヨーク";
-        model.person.pets = new ArrayList<Pet>();
-        Pet pet1 = new Pet();
-        pet1.type = "犬";
-        pet1.name = "ジョリー";
-        model.person.pets.add(pet1);
-        Pet pet2 = new Pet();
-        pet2.type = "猫";
-        pet2.name = "グリザベラ";
-        model.person.pets.add(pet2);
-        Pet pet3 = new Pet();
-        pet3.type = "魚";
-        pet3.name = "ニモ";
-        model.person.pets.add(pet3);
-
-        final String postJson = mGson.toJson(model);
+        final String postJson = "{" +
+                "    \"person\": {" +
+                "        \"firstName\": \"John\"," +
+                "        \"lastName\": \"Doe\"," +
+                "        \"address\": \"NewYork\"," +
+                "        \"pets\": [" +
+                "            {\"type\": \"Dog\", \"name\": \"Jolly\"}," +
+                "            {\"type\": \"Cat\", \"name\": \"Grizabella\"}," +
+                "            {\"type\": \"Fish\", \"name\": \"Nimo\"}" +
+                "        ]" +
+                "    }" +
+                "}";
 
         final Map<String, String> httpHeaders = new LinkedHashMap<String, String>();
         final String resultStr = doPost(WEB_API_ENDPOINT, "UTF-8", httpHeaders, postJson);
